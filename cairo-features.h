@@ -21,4 +21,6 @@
 #define HAVE_INTTYPES_H		1
 #define CAIRO_HAS_PTHREAD	1
 
+#define HAVE_UINT64_T		1
+
 #endif
