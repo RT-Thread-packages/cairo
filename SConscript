@@ -122,6 +122,11 @@ for item in range(len(src)):
 
 CPPPATH = [cwd + '/' + CAIRO_PATH + '/src', cwd]
 
-group = DefineGroup('cairo', src, depend = ['PKG_USING_CAIRO'], CPPPATH = CPPPATH)
+LOCAL_CCFLAGS = ''
+import rtconfig
+if rtconfig.CROSS_TOOL == 'keil':
+    LOCAL_CCFLAGS += ' --gnu'
+
+group = DefineGroup('cairo', src, depend = ['PKG_USING_CAIRO'], CPPPATH = CPPPATH, LOCAL_CCFLAGS = LOCAL_CCFLAGS)
 
 Return('group')
