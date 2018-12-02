@@ -1,9 +1,13 @@
+Import('RTT_ROOT')
+Import('rtconfig')
+
 from building import *
 import os
 
 CAIRO_VERSION = '1.14.12'
 CAIRO_PATH = 'cairo-' + CAIRO_VERSION
 cwd = GetCurrentDir()
+LOCAL_CCFLAGS = ""
 
 # source files 
 src = Split('''
@@ -117,15 +121,13 @@ cairo-version.c
 cairo-wideint.c
 ''')
 
+if rtconfig.CROSS_TOOL == "keil":
+    LOCAL_CCFLAGS += ' --gnu -W'
+
 for item in range(len(src)):
     src[item] = CAIRO_PATH + '/src/' + src[item]
 
 CPPPATH = [cwd + '/' + CAIRO_PATH + '/src', cwd]
-
-LOCAL_CCFLAGS = ''
-import rtconfig
-if rtconfig.CROSS_TOOL == 'keil':
-    LOCAL_CCFLAGS += ' --gnu'
 
 group = DefineGroup('cairo', src, depend = ['PKG_USING_CAIRO'], CPPPATH = CPPPATH, LOCAL_CCFLAGS = LOCAL_CCFLAGS)
 
